@@ -1,4 +1,4 @@
-package ru.chuikov.itsamsungweatherproject.screens;
+package ru.chuikov.itsamsungweatherproject.screens.weather;
 
 import android.os.Bundle;
 

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.chuikov.itsamsungweatherproject.App;
-import ru.chuikov.itsamsungweatherproject.DB.enities.City;
+import ru.chuikov.itsamsungweatherproject.data.enities.City;
 import ru.chuikov.itsamsungweatherproject.R;
 import ru.chuikov.itsamsungweatherproject.databinding.FragmentCitiesBinding;
 
@@ -56,13 +56,13 @@ public class CitiesFragment extends Fragment {
                 Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        Log.i("ADD_DB","First");
-                        App.getInstance().getDatabase().cityDao().insert(new City("asd",1.2,3.4,"RU"));
-                        Log.i("ADD_DB","SEcond");
-                        App.getInstance().getDatabase().cityDao().insert(new City("dsf",1.2,3.4,"RU"));
-                        Log.i("ADD_DB","Third");
-                        App.getInstance().getDatabase().cityDao().insert(new City("asgdfgfd",1.2,3.4,"RU"));
-                        updateList();
+//                        Log.i("ADD_DB","First");
+//                        App.getInstance().getDatabase().cityDao().insert(new City("asd",1.2,3.4,"RU"));
+//                        Log.i("ADD_DB","SEcond");
+//                        App.getInstance().getDatabase().cityDao().insert(new City("dsf",1.2,3.4,"RU"));
+//                        Log.i("ADD_DB","Third");
+//                        App.getInstance().getDatabase().cityDao().insert(new City("asgdfgfd",1.2,3.4,"RU"));
+//                        updateList();
                     }
                 });
                 t.start();
@@ -76,18 +76,18 @@ public class CitiesFragment extends Fragment {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                list.clear();
-                List<City> cities = App.getInstance().getDatabase().cityDao().getAll();
-                for (City c: cities){
-                    list.add(new CityItem(c.name,1));
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Log.i("ADD_DB","Update");
-                            adapter.notifyDataSetChanged();
-                        }
-                    });
-                }
+//                list.clear();
+//                List<City> cities = App.getInstance().getDatabase().cityDao().getAll();
+//                for (City c: cities){
+//                    list.add(new CityItem(c.name,1));
+//                    getActivity().runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Log.i("ADD_DB","Update");
+//                            adapter.notifyDataSetChanged();
+//                        }
+//                    });
+//                }
             }
         });
         t.start();

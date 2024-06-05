@@ -1,4 +1,4 @@
-package ru.chuikov.itsamsungweatherproject.DB.enities;
+package ru.chuikov.itsamsungweatherproject.data.enities;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;

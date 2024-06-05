@@ -1,14 +1,13 @@
-package ru.chuikov.itsamsungweatherproject.DB.Repository;
+package ru.chuikov.itsamsungweatherproject.data.Repository;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
-import androidx.room.Update;
 
 import java.util.List;
 
-import ru.chuikov.itsamsungweatherproject.DB.enities.City;
+import ru.chuikov.itsamsungweatherproject.data.enities.City;
 
 @Dao
 public interface CityDao {

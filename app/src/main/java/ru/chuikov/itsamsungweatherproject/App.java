@@ -4,27 +4,25 @@ import android.app.Application;
 
 import androidx.room.Room;
 
-import ru.chuikov.itsamsungweatherproject.DB.AppDatabase;
+import ru.chuikov.itsamsungweatherproject.data.AppDatabase;
+import ru.chuikov.itsamsungweatherproject.service.WeatherService;
 
 public class App extends Application {
     public static App instance;
 
-    private AppDatabase database;
+    private WeatherService weatherService;
 
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
-        database = Room.databaseBuilder(this, AppDatabase.class, "database")
-                .fallbackToDestructiveMigration()
-                .build();
+        weatherService = new WeatherService(this);
     }
 
     public static App getInstance() {
         return instance;
     }
 
-    public AppDatabase getDatabase() {
-        return database;
-    }
+    public WeatherService getWeatherService(){ return weatherService;}
+
 }

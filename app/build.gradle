@@ -29,6 +29,9 @@ android {
     buildFeatures{
         viewBinding true
     }
+    viewBinding{
+        enable = true
+    }
 }
 
 dependencies {
@@ -54,5 +57,12 @@ dependencies {
     androidTestImplementation libs.espresso.core
 
     implementation libs.picasso
+
+    implementation libs.moshi
+    runtimeOnly libs.moshi
+    implementation libs.moshi.adapters
+    runtimeOnly libs.moshi.adapters
+
+
 
 }
