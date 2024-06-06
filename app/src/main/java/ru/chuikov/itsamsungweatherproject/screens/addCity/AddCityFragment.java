@@ -1,12 +1,6 @@
 package ru.chuikov.itsamsungweatherproject.screens.addCity;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,33 +9,37 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.moshi.JsonAdapter;
-import com.squareup.moshi.Types;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 import ru.chuikov.itsamsungweatherproject.App;
-import ru.chuikov.itsamsungweatherproject.R;
 import ru.chuikov.itsamsungweatherproject.api.responce.CityListResponse;
 import ru.chuikov.itsamsungweatherproject.databinding.FragmentAddCityBinding;
 import ru.chuikov.itsamsungweatherproject.service.WeatherService;
+import ru.chuikov.itsamsungweatherproject.service.dto.CityItemSearch;
 
 public class AddCityFragment extends Fragment {
 
     private FragmentAddCityBinding binding;
 
     private WeatherService service;
-    private List<CityListResponse.Result> list;
+    private List<CityItemSearch> list;
+    private AddCityAdapter adapter;
+
+    private Thread searchThread = new Thread();
+
+    private AddCityAdapter.OnClickListener onClickListener = new AddCityAdapter.OnClickListener() {
+        @Override
+        public void onClick(int position) {
+        //TODO
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,33 +53,19 @@ public class AddCityFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         service = App.getInstance().getWeatherService();
         list = new ArrayList<>();
+
+        adapter = new AddCityAdapter(list, onClickListener);
+        binding.addCityList.setAdapter(adapter);
         binding.addCityTextEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    Toast.makeText(getContext(), v.getText(), Toast.LENGTH_LONG).show();
-                    service.searchCity(v.getText().toString().trim(),
-                            Locale.getDefault().getLanguage(),
-                            new Callback() {
-                                @Override
-                                public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                                    Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
-                                }
+                    if (!searchThread.isAlive()) {
+                        runSearchThread(v.getText().toString().trim(), Locale.getDefault().getLanguage());
+                    } else {
+                        Toast.makeText(getContext(), "Request already send", Toast.LENGTH_SHORT).show();
+                    }
 
-                                @Override
-                                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                                    Log.i("HTTP","HTTP is OK with code "+response.code());
-                                    if (!response.isSuccessful()){
-                                        throw new IOException("Unexpected code " + response);
-                                    }else {
-                                        JsonAdapter<CityListResponse> responseJsonAdapter = service.getMoshi().adapter(CityListResponse.class);
-                                        CityListResponse resp = responseJsonAdapter.fromJson(response.body().string());
-
-
-                                    }
-                                }
-                            }
-                    );
                     return true;
                 }
                 return false;
@@ -90,4 +74,49 @@ public class AddCityFragment extends Fragment {
 
 
     }
+
+    private void runSearchThread(String name, String local) {
+        searchThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    List<CityItemSearch> searches = service.searchCity(name,local);
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            list.clear();
+                            list = searches;
+                            adapter = new AddCityAdapter(list, onClickListener);
+                            binding.addCityList.setAdapter(adapter);
+                        }
+                    });
+                } catch (IOException e) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            sendToast(e.getLocalizedMessage());
+                            list.clear();
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
+
+                }
+
+
+
+            }
+        });
+        searchThread.start();
+    }
+
+    private void sendToast(String msg) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+
 }

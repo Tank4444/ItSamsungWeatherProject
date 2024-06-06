@@ -16,7 +16,7 @@ public class ApiClient {
     private final String WEATHER_HOST = "https://api.open-meteo.com/v1/";
     private final String WEATHER_HOST_FORECAST = "https://api.open-meteo.com/v1/forecast?";
     private final String GEOCODING_HOST = "https://geocoding-api.open-meteo.com/v1/";
-    private final String GEOCODING_HOST_SEARCH = GEOCODING_HOST + "/search?";
+    private final String GEOCODING_HOST_SEARCH ="search?";
 
     public ApiClient() {
         client = new OkHttpClient.Builder()
@@ -26,11 +26,11 @@ public class ApiClient {
     private OkHttpClient client;
 
     private Request findCity(String name, String lang) {
-        HttpUrl.Builder builder = HttpUrl.parse(GEOCODING_HOST_SEARCH).newBuilder();
+        HttpUrl.Builder builder = HttpUrl.parse(GEOCODING_HOST+GEOCODING_HOST_SEARCH).newBuilder();
         builder.addQueryParameter("name", name);
+        builder.addQueryParameter("language", lang);
         builder.addQueryParameter("count", String.valueOf(10));
         if (lang == null) lang = "ru";
-        builder.addQueryParameter("language", lang);
         return new Request.Builder()
                 .url(builder.build())
                 .build();

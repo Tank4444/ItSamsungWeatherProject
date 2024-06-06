@@ -11,7 +11,8 @@
         android:id="@+id/add_city_item_image"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
         android:src="@drawable/ic_launcher_background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

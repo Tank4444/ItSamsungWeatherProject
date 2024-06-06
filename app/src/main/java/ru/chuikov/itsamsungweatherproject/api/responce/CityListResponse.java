@@ -8,7 +8,9 @@ import java.util.List;
 
 public class CityListResponse {
 
+    @com.squareup.moshi.Json(name = "results")
     private List<Result> results;
+    @com.squareup.moshi.Json(name = "generationtime_ms")
     private Double generationtimeMs;
 
     public List<Result> getResults() {
@@ -26,27 +28,47 @@ public class CityListResponse {
     public void setGenerationtimeMs(Double generationtimeMs) {
         this.generationtimeMs = generationtimeMs;
     }
-
     public static class Result{
+
+        @com.squareup.moshi.Json(name = "id")
         private Integer id;
+        @com.squareup.moshi.Json(name = "name")
         private String name;
+        @com.squareup.moshi.Json(name = "latitude")
         private Double latitude;
+        @com.squareup.moshi.Json(name = "longitude")
         private Double longitude;
+        @com.squareup.moshi.Json(name = "elevation")
         private Double elevation;
+        @com.squareup.moshi.Json(name = "feature_code")
         private String featureCode;
+        @com.squareup.moshi.Json(name = "country_code")
         private String countryCode;
+        @com.squareup.moshi.Json(name = "admin1_id")
         private Integer admin1Id;
+        @com.squareup.moshi.Json(name = "admin3_id")
         private Integer admin3Id;
+        @com.squareup.moshi.Json(name = "admin4_id")
         private Integer admin4Id;
+        @com.squareup.moshi.Json(name = "timezone")
         private String timezone;
+        @com.squareup.moshi.Json(name = "population")
         private Integer population;
+        @com.squareup.moshi.Json(name = "postcodes")
         private List<String> postcodes;
+        @com.squareup.moshi.Json(name = "country_id")
         private Integer countryId;
+        @com.squareup.moshi.Json(name = "country")
         private String country;
+        @com.squareup.moshi.Json(name = "admin1")
         private String admin1;
+        @com.squareup.moshi.Json(name = "admin3")
         private String admin3;
+        @com.squareup.moshi.Json(name = "admin4")
         private String admin4;
+        @com.squareup.moshi.Json(name = "admin2_id")
         private Integer admin2Id;
+        @com.squareup.moshi.Json(name = "admin2")
         private String admin2;
 
         public Integer getId() {

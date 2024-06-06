@@ -27,6 +27,7 @@
             android:inputType="text"
             android:singleLine="true"
             android:imeOptions="actionDone"
+            android:text="Moscow"
             />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -34,6 +35,7 @@
         android:id="@+id/add_city_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
