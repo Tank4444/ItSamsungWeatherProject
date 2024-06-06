@@ -22,4 +22,7 @@ public interface CityDao {
 
     @Delete
     void delete(City city);
+
+    @Query("DELETE FROM city WHERE id = :id")
+    void deleteById(long id);
 }

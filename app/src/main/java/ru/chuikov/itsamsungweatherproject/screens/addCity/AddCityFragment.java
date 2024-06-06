@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,7 +20,9 @@ import java.util.List;
 import java.util.Locale;
 
 import ru.chuikov.itsamsungweatherproject.App;
+import ru.chuikov.itsamsungweatherproject.R;
 import ru.chuikov.itsamsungweatherproject.api.responce.CityListResponse;
+import ru.chuikov.itsamsungweatherproject.data.enities.City;
 import ru.chuikov.itsamsungweatherproject.databinding.FragmentAddCityBinding;
 import ru.chuikov.itsamsungweatherproject.service.WeatherService;
 import ru.chuikov.itsamsungweatherproject.service.dto.CityItemSearch;
@@ -37,7 +40,31 @@ public class AddCityFragment extends Fragment {
     private AddCityAdapter.OnClickListener onClickListener = new AddCityAdapter.OnClickListener() {
         @Override
         public void onClick(int position) {
-        //TODO
+            if (!list.get(position).inDB){
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        CityItemSearch itemSearch = list.get(position);
+                        City add = City.builder()
+                                .name(itemSearch.name)
+                                .id_service(itemSearch.id)
+                                .country_code(itemSearch.countryCode)
+                                .country(itemSearch.country)
+                                .lat(itemSearch.lat)
+                                .lon(itemSearch.lon)
+                                .timezone(itemSearch.timezone)
+                                .build();
+                        service.addCity(add);
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Navigation.findNavController(binding.getRoot()).popBackStack();
+                            }
+                        });
+                    }
+                });
+                thread.start();
+            }else Toast.makeText(getContext(),"In database",Toast.LENGTH_SHORT).show();
         }
     };
 

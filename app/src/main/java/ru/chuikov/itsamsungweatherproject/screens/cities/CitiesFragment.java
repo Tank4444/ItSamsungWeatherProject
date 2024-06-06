@@ -19,16 +19,21 @@ import ru.chuikov.itsamsungweatherproject.App;
 import ru.chuikov.itsamsungweatherproject.data.enities.City;
 import ru.chuikov.itsamsungweatherproject.R;
 import ru.chuikov.itsamsungweatherproject.databinding.FragmentCitiesBinding;
+import ru.chuikov.itsamsungweatherproject.service.WeatherService;
+import ru.chuikov.itsamsungweatherproject.service.dto.CityItemSearch;
 
-public class CitiesFragment extends Fragment {
+public class CitiesFragment extends Fragment{
     private FragmentCitiesBinding binding;
-    private List<CityItem> list;
+    private List<CityItemSearch> list;
     private CitiesAdapter adapter;
+
+    private WeatherService service;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentCitiesBinding.inflate(inflater,container,false);
+        service = App.getInstance().getWeatherService();
         return binding.getRoot();
     }
     @Override
@@ -38,7 +43,25 @@ public class CitiesFragment extends Fragment {
         adapter = new CitiesAdapter(list, new CitiesAdapter.CitiesAdapterInterface() {
             @Override
             public void onCellClick(int index) {
+                DeleteDialogFragment dialogFragment = new DeleteDialogFragment(new RemovableCity() {
+                    @Override
+                    public void remove(long id) {
+                        Thread thread = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                service.deleteCity(id);
+                                updateList();
+                            }
+                        });
+                        thread.start();
 
+                    }
+                });
+                Bundle bundle = new Bundle();
+                bundle.putLong("city_id",list.get(index).id);
+                bundle.putString("city_name",list.get(index).name);
+                dialogFragment.setArguments(bundle);
+                dialogFragment.show(getChildFragmentManager(),"Dialog");
             }
 
             @Override
@@ -50,25 +73,6 @@ public class CitiesFragment extends Fragment {
 
         updateList();
 
-        binding.textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Thread t = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-//                        Log.i("ADD_DB","First");
-//                        App.getInstance().getDatabase().cityDao().insert(new City("asd",1.2,3.4,"RU"));
-//                        Log.i("ADD_DB","SEcond");
-//                        App.getInstance().getDatabase().cityDao().insert(new City("dsf",1.2,3.4,"RU"));
-//                        Log.i("ADD_DB","Third");
-//                        App.getInstance().getDatabase().cityDao().insert(new City("asgdfgfd",1.2,3.4,"RU"));
-//                        updateList();
-                    }
-                });
-                t.start();
-            }
-        });
-
 
 
     }
@@ -76,20 +80,27 @@ public class CitiesFragment extends Fragment {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-//                list.clear();
-//                List<City> cities = App.getInstance().getDatabase().cityDao().getAll();
-//                for (City c: cities){
-//                    list.add(new CityItem(c.name,1));
-//                    getActivity().runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            Log.i("ADD_DB","Update");
-//                            adapter.notifyDataSetChanged();
-//                        }
-//                    });
-//                }
+                List<City> cities = service.getCities();
+                list.clear();
+                for (City city:cities) list.add(CityItemSearch.builder()
+                                .id(city.id)
+                                .name(city.name)
+                                .countryCode(city.country_code)
+                                .country(city.country)
+                                .lat(city.lat)
+                                .lon(city.lon)
+                                .timezone(city.timezone)
+                        .build());
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+
             }
         });
         t.start();
     }
+
 }

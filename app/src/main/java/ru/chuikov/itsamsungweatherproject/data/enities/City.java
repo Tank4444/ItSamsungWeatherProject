@@ -23,6 +23,9 @@ public class City {
     public double lon;
 
     public String country_code;
+    public String country;
+
+    public String timezone;
 
 
 }

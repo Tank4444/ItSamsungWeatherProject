@@ -4,31 +4,27 @@ import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import ru.chuikov.itsamsungweatherproject.R;
+import ru.chuikov.itsamsungweatherproject.service.dto.CityItemSearch;
 
-class CityItem {
-    public String name;
-    public int count;
 
-    public CityItem(String name, int count) {
-        this.name = name;
-        this.count = count;
-    }
-}
 public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.CityViewHolder> {
 
-    private List<CityItem> list;
+    private List<CityItemSearch> list;
     private CitiesAdapterInterface listener;
 
 
-    public CitiesAdapter(List<CityItem> list, CitiesAdapterInterface listener) {
+    public CitiesAdapter(List<CityItemSearch> list, CitiesAdapterInterface listener) {
         this.listener = listener;
         this.list = list;
     }
@@ -44,14 +40,22 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.CityViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CityViewHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull CityViewHolder holder,
+                                 int position) {
         if (holder.viewType==VIEW_TYPE_CELL){
-            holder.name.setText(list.get(position).name);
-            holder.count.setText(list.get(position).count+"");
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+            CityItemSearch city = list.get(position);
+            Picasso.get().load("https://flagcdn.com/w160/"+city
+                            .countryCode.toLowerCase()+".png")
+                    .into(holder.countryImage);
+            holder.nameText.setText(city.name);
+            holder.countryText.setText(city.country);
+            holder.timezoneText.setText(city.timezone);
+
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public void onClick(View v) {
-                    listener.onCellClick(position);
+                public boolean onLongClick(View v) {
+                    listener.onCellClick(holder.getAdapterPosition());
+                    return true;
                 }
             });
 
@@ -84,8 +88,12 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.CityViewHo
     }
 
     class CityViewHolder extends RecyclerView.ViewHolder{
-        public TextView name;
-        public TextView count;
+        public ImageView countryImage;
+        public TextView nameText;
+
+        public  TextView countryText;
+
+        public  TextView timezoneText;
 
         public int viewType;
 
@@ -94,8 +102,10 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.CityViewHo
             this.viewType = viewType;
             if (viewType==VIEW_TYPE_CELL)
             {
-                name = itemView.findViewById(R.id.city_name_item);
-                count = itemView.findViewById(R.id.citie_count);
+                 countryImage = itemView.findViewById(R.id.city_item_image);
+                 nameText = itemView.findViewById(R.id.city_item_name);
+                 countryText = itemView.findViewById(R.id.city_item_country);
+                 timezoneText = itemView.findViewById(R.id.city_item_timezone);
             }
 
         }

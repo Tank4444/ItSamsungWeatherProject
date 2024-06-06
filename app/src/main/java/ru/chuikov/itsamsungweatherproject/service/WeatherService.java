@@ -51,6 +51,7 @@ public class WeatherService {
                     break;
                 }
             result.add(CityItemSearch.builder()
+                            .id(res.getId())
                     .name(res.getName())
                     .country(res.getCountry())
                     .countryCode(res.getCountryCode())
@@ -64,6 +65,22 @@ public class WeatherService {
         }
 
         return result;
+    }
+
+    public void addCity(City city){
+        database.cityDao().insert(city);
+    }
+    public List<City> getCities(){
+        return database.cityDao().getAll();
+    }
+
+    public void deleteCity(long id){
+        database.cityDao().delete(findById(id));
+    }
+
+
+    public City findById(long id){
+        return database.cityDao().getById(id);
     }
 
 }
