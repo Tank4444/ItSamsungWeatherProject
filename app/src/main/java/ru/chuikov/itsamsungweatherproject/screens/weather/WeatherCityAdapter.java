@@ -22,9 +22,12 @@ public class WeatherCityAdapter extends RecyclerView.Adapter<WeatherCityAdapter.
     private DateFormat toDataFormat = new SimpleDateFormat("dd.MM");
     private DateFormat isoDataFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 
+    private WeatherCityAdapter.onClickListener listener;
 
-    public WeatherCityAdapter(List<WeatherCity> cities) {
+
+    public WeatherCityAdapter(List<WeatherCity> cities,WeatherCityAdapter.onClickListener listener) {
         this.cities = cities;
+        this.listener = listener;
     }
 
     @NonNull
@@ -38,17 +41,31 @@ public class WeatherCityAdapter extends RecyclerView.Adapter<WeatherCityAdapter.
     @Override
     public void onBindViewHolder(@NonNull WeatherCityViewHolder holder, int position) {
         holder.binding.weatherCityItemName.setText(
-                cities.get(position).cityName+" ("+cities.get(position).country+")");
+                cities.get(holder.getAdapterPosition()).cityName+" ("+cities.get(holder.getAdapterPosition()).country+")");
         try {
             holder.binding.weatherCityItemDate.setText(
-                    toDataFormat.format(isoDataFormat.parse(cities.get(position).date))
+                    toDataFormat.format(isoDataFormat.parse(cities.get(holder.getAdapterPosition()).date))
             );
         } catch (ParseException e) {
 
         }
-        WeatherCityCurrentTimeAdapter adapter = new WeatherCityCurrentTimeAdapter(cities.get(position).list);
+        WeatherCityCurrentTimeAdapter adapter = new WeatherCityCurrentTimeAdapter(cities.get(holder.getAdapterPosition()).list, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onClick(cities.get(holder.getAdapterPosition()).id);
+            }
+        });
 
         holder.binding.weatherCityItemCurrentList.setAdapter(adapter);
+
+        holder.binding.getRoot().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onClick(cities.get(holder.getAdapterPosition()).id);
+            }
+        });
+        holder.binding.weatherCityItemCurrentList.setOnClickListener(null);
+
 
     }
 
@@ -59,12 +76,15 @@ public class WeatherCityAdapter extends RecyclerView.Adapter<WeatherCityAdapter.
 
     @Builder
     public static class WeatherCity {
+        public long id;
         public String cityName;
         public String country;
         public String date;
         public List<WeatherCityCurrentTimeAdapter.CurrentWeatherItem> list;
     }
-
+    public interface onClickListener{
+        void onClick(long position);
+    }
 
     public class WeatherCityViewHolder extends RecyclerView.ViewHolder {
         public WeatherCityItemBinding binding;

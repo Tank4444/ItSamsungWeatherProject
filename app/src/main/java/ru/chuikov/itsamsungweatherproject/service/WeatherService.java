@@ -17,9 +17,12 @@ import java.util.List;
 import okhttp3.Response;
 import ru.chuikov.itsamsungweatherproject.api.ApiClient;
 import ru.chuikov.itsamsungweatherproject.api.responce.CityListResponse;
-import ru.chuikov.itsamsungweatherproject.api.responce.WeatherCityResponce;
+import ru.chuikov.itsamsungweatherproject.api.responce.Daily;
+import ru.chuikov.itsamsungweatherproject.api.responce.Hourly;
+import ru.chuikov.itsamsungweatherproject.api.responce.WeatherCityResponse;
 import ru.chuikov.itsamsungweatherproject.data.AppDatabase;
 import ru.chuikov.itsamsungweatherproject.data.enities.City;
+import ru.chuikov.itsamsungweatherproject.screens.cityWeather.CityWeatherFragment;
 import ru.chuikov.itsamsungweatherproject.screens.weather.WeatherCityAdapter;
 import ru.chuikov.itsamsungweatherproject.screens.weather.WeatherCityCurrentTimeAdapter;
 import ru.chuikov.itsamsungweatherproject.service.dto.CityItemSearch;
@@ -93,29 +96,30 @@ public class WeatherService {
     public List<WeatherCityAdapter.WeatherCity> getWeatherCities() throws IOException {
         List<City> cities = getCities();
         Response response = client.getHourlyWeather(cities);
-        List<WeatherCityResponce> weatherCityResponses;
-        if (cities.size()==1){
-            JsonAdapter<WeatherCityResponce> responseJsonAdapter = moshi.adapter(WeatherCityResponce.class);
+        List<WeatherCityResponse> weatherCityResponses;
+        if (cities.size() == 1) {
+            JsonAdapter<WeatherCityResponse> responseJsonAdapter = moshi.adapter(WeatherCityResponse.class);
             weatherCityResponses = Arrays.asList(responseJsonAdapter.fromJson(response.body().string()));
-        }else{
-            Type type = Types.newParameterizedType(List.class, WeatherCityResponce.class);
-            JsonAdapter<List<WeatherCityResponce>> responseJsonAdapter = moshi.adapter(type);
+        } else {
+            Type type = Types.newParameterizedType(List.class, WeatherCityResponse.class);
+            JsonAdapter<List<WeatherCityResponse>> responseJsonAdapter = moshi.adapter(type);
             weatherCityResponses = responseJsonAdapter.fromJson(response.body().string());
         }
         List<WeatherCityAdapter.WeatherCity> weatherCities = new ArrayList<>();
         for (int i = 0; i < weatherCityResponses.size(); i++) {
             List<WeatherCityCurrentTimeAdapter.CurrentWeatherItem> list = new ArrayList<>();
-            WeatherCityResponce.Hourly hourly = weatherCityResponses.get(i).getHourly();
+            Hourly hourly = weatherCityResponses.get(i).getHourly();
             for (int j = 0; j < hourly.getTime().size(); j++) {
                 list.add(WeatherCityCurrentTimeAdapter.CurrentWeatherItem.builder()
-                                .time(hourly.getTime().get(j))
-                                .weatherCode(hourly.getWeatherCode().get(j))
-                                .temp(String.valueOf(hourly.getTemperature2m().get(j)))
+                        .time(hourly.getTime().get(j))
+                        .weatherCode(hourly.getWeatherCode().get(j))
+                        .temp(String.valueOf(hourly.getTemperature2m().get(j)))
                         .build());
             }
             weatherCities.add(WeatherCityAdapter.WeatherCity.builder()
+                    .id(cities.get(i).id)
                     .cityName(cities.get(i).name)
-                            .country(cities.get(i).country)
+                    .country(cities.get(i).country)
                     .date(weatherCityResponses.get(i).getHourly().getTime().get(0))
                     .list(list)
                     .build());
@@ -124,5 +128,32 @@ public class WeatherService {
 
         return weatherCities;
 
+    }
+
+
+    public CityWeatherFragment.CityDailyWeatherData getWeatherInCityById(long id) throws IOException {
+        City city = database.cityDao().getById(id);
+        Response response = client.getDailyWeather(city);
+        JsonAdapter<WeatherCityResponse> responseJsonAdapter = moshi.adapter(WeatherCityResponse.class);
+        WeatherCityResponse weatherCityResponses = responseJsonAdapter.fromJson(response.body().string());
+
+
+        CityWeatherFragment.CityDailyWeatherData data = new CityWeatherFragment.CityDailyWeatherData();
+        data.list = new ArrayList<>();
+        data.name = city.name;
+        Daily daily = weatherCityResponses.getDaily();
+        for (int i = 0; i < daily.getTime().size(); i++){
+            CityWeatherFragment.CityDailyWeatherData.DailyItem item = CityWeatherFragment.CityDailyWeatherData.DailyItem.builder()
+                    .tmax(daily.getTemperature2mMax().get(i))
+                    .tmin(daily.getTemperature2mMin().get(i))
+                    .pp(daily.getPrecipitationProbabilityMax().get(i))
+                    .date(daily.getTime().get(i))
+                    .weatherCode(daily.getWeatherCode().get(i))
+                    .build();
+            data.list.add(item);
+        }
+
+
+        return data;
     }
 }

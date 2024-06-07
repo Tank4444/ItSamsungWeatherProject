@@ -2,6 +2,7 @@ package ru.chuikov.itsamsungweatherproject.screens.weather;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -22,6 +23,8 @@ import ru.chuikov.itsamsungweatherproject.databinding.WeatherCityItemCurrentList
 public class WeatherCityCurrentTimeAdapter extends RecyclerView.Adapter<WeatherCityCurrentTimeAdapter.WeatherCityCurrentTimeViewHolder> {
     private DateFormat isoDataFormat;
     private DateFormat toDataFormat;
+
+    private View.OnClickListener listener;
     @Builder
     public static class CurrentWeatherItem {
         public String temp;
@@ -31,10 +34,11 @@ public class WeatherCityCurrentTimeAdapter extends RecyclerView.Adapter<WeatherC
 
     private List<CurrentWeatherItem> list;
 
-    public WeatherCityCurrentTimeAdapter(List<CurrentWeatherItem> list) {
+    public WeatherCityCurrentTimeAdapter(List<CurrentWeatherItem> list, View.OnClickListener listener) {
         this.list = list;
         isoDataFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-        toDataFormat = new SimpleDateFormat("HH.mm");
+        toDataFormat = new SimpleDateFormat("HH:mm");
+        this.listener = listener;
     }
 
     @NonNull
@@ -50,6 +54,8 @@ public class WeatherCityCurrentTimeAdapter extends RecyclerView.Adapter<WeatherC
 
     @Override
     public void onBindViewHolder(@NonNull WeatherCityCurrentTimeViewHolder holder, int position) {
+        holder.itemView.setOnClickListener(listener);
+
         holder.binding.weatherCityItemCurrentListTemp
                 .setText(list.get(position).temp + "°C");
         try {
@@ -80,7 +86,7 @@ public class WeatherCityCurrentTimeAdapter extends RecyclerView.Adapter<WeatherC
         }
     }
 
-    private String urlFromCode(int code) {
+    public static String urlFromCode(int code) {
         String res = "";
         switch (code) {
             case 0:

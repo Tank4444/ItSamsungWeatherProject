@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    id 'androidx.navigation.safeargs'
 }
 
 android {
@@ -35,6 +36,9 @@ android {
 }
 
 dependencies {
+
+
+
     def room_version = "2.6.1"
     implementation libs.room.runtime
     annotationProcessor "androidx.room:room-compiler:$room_version"

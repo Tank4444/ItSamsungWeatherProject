@@ -14,7 +14,6 @@ import okhttp3.OkHttp;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import ru.chuikov.itsamsungweatherproject.api.responce.WeatherCityResponce;
 import ru.chuikov.itsamsungweatherproject.data.enities.City;
 
 public class ApiClient {
@@ -22,12 +21,6 @@ public class ApiClient {
     private final String WEATHER_HOST_FORECAST = "forecast?";
     private final String GEOCODING_HOST = "https://geocoding-api.open-meteo.com/v1/";
     private final String GEOCODING_HOST_SEARCH = "search?";
-
-
-    //https://api.open-meteo.com/v1/forecast
-    // ?latitude=53.3606&longitude=83.7636
-    // &hourly=temperature_2m,weather_code
-    // &timezone=Asia%2FBangkok&forecast_hours=12
 
     private Request getHourlyWeatherRequest(List<City> cities) {
             HttpUrl.Builder builder = HttpUrl.parse(WEATHER_HOST + WEATHER_HOST_FORECAST).newBuilder();
@@ -48,6 +41,28 @@ public class ApiClient {
             return new Request.Builder()
                     .url(url)
                     .build();
+    }
+
+    //https://api.open-meteo.com/v1/forecast?
+    // latitude=53.3606&
+    // longitude=83.7636&
+    // daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&
+    // timezone=auto
+    private Request getDailyWeatherRequest(City city) {
+            HttpUrl.Builder builder = HttpUrl.parse(WEATHER_HOST + WEATHER_HOST_FORECAST).newBuilder();
+            builder.addQueryParameter("daily", "weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max");
+            builder.addQueryParameter("latitude", String.valueOf(city.lat));
+            builder.addQueryParameter("longitude", String.valueOf(city.lon));
+            builder.addQueryParameter("timezone", city.timezone);
+            builder.addQueryParameter("forecast_days", "14");
+            String url = builder.build().toString();
+            return new Request.Builder()
+                    .url(url)
+                    .build();
+    }
+
+    public Response getDailyWeather(City city) throws IOException {
+        return client.newCall(getDailyWeatherRequest(city)).execute();
     }
 
     public Response getHourlyWeather(List<City> cities) throws IOException {

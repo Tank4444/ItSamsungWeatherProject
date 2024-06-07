@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_weatherFragment_to_citiesFragment"
             app:destination="@id/citiesFragment" />
+        <action
+            android:id="@+id/action_weatherFragment_to_cityWeatherFragment"
+            app:destination="@id/cityWeatherFragment" />
     </fragment>
     <fragment
         android:id="@+id/citiesFragment"
@@ -30,6 +33,15 @@
             app:destination="@id/addCityFragment" />
         <action
             android:id="@+id/action_citiesFragment_to_weatherFragment"
+            app:destination="@id/weatherFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cityWeatherFragment"
+        android:name="ru.chuikov.itsamsungweatherproject.screens.cityWeather.CityWeatherFragment"
+        android:label="fragment_city_weather"
+        tools:layout="@layout/fragment_city_weather" >
+        <action
+            android:id="@+id/action_cityWeatherFragment_to_weatherFragment"
             app:destination="@id/weatherFragment" />
     </fragment>
 </navigation>
