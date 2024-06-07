@@ -11,6 +11,7 @@ import com.squareup.moshi.Types;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import okhttp3.Response;
@@ -92,10 +93,15 @@ public class WeatherService {
     public List<WeatherCityAdapter.WeatherCity> getWeatherCities() throws IOException {
         List<City> cities = getCities();
         Response response = client.getHourlyWeather(cities);
-        Type type = Types.newParameterizedType(List.class, WeatherCityResponce.class);
-        JsonAdapter<List<WeatherCityResponce>> responseJsonAdapter = moshi.adapter(type);
-        List<WeatherCityResponce> weatherCityResponses = responseJsonAdapter.fromJson(response.body().string());
-
+        List<WeatherCityResponce> weatherCityResponses;
+        if (cities.size()==1){
+            JsonAdapter<WeatherCityResponce> responseJsonAdapter = moshi.adapter(WeatherCityResponce.class);
+            weatherCityResponses = Arrays.asList(responseJsonAdapter.fromJson(response.body().string()));
+        }else{
+            Type type = Types.newParameterizedType(List.class, WeatherCityResponce.class);
+            JsonAdapter<List<WeatherCityResponce>> responseJsonAdapter = moshi.adapter(type);
+            weatherCityResponses = responseJsonAdapter.fromJson(response.body().string());
+        }
         List<WeatherCityAdapter.WeatherCity> weatherCities = new ArrayList<>();
         for (int i = 0; i < weatherCityResponses.size(); i++) {
             List<WeatherCityCurrentTimeAdapter.CurrentWeatherItem> list = new ArrayList<>();
@@ -109,6 +115,7 @@ public class WeatherService {
             }
             weatherCities.add(WeatherCityAdapter.WeatherCity.builder()
                     .cityName(cities.get(i).name)
+                            .country(cities.get(i).country)
                     .date(weatherCityResponses.get(i).getHourly().getTime().get(0))
                     .list(list)
                     .build());

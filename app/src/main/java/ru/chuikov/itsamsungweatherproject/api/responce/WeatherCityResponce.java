@@ -104,7 +104,7 @@ public class WeatherCityResponce {
         this.locationId = locationId;
     }
 
-    public class Hourly {
+    public static class Hourly {
         @com.squareup.moshi.Json(name = "time")
         private List<String> time;
         @com.squareup.moshi.Json(name = "temperature_2m")
@@ -137,7 +137,7 @@ public class WeatherCityResponce {
         }
     }
 
-    public class HourlyUnits {
+    public static class HourlyUnits {
         @com.squareup.moshi.Json(name = "time")
         private String time;
         @com.squareup.moshi.Json(name = "temperature_2m")

@@ -1,9 +1,8 @@
 package ru.chuikov.itsamsungweatherproject.screens.weather;
 
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,17 +12,18 @@ import com.squareup.picasso.Picasso;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import lombok.Builder;
 import ru.chuikov.itsamsungweatherproject.R;
 import ru.chuikov.itsamsungweatherproject.databinding.WeatherCityItemCurrentListItemBinding;
 
 public class WeatherCityCurrentTimeAdapter extends RecyclerView.Adapter<WeatherCityCurrentTimeAdapter.WeatherCityCurrentTimeViewHolder> {
-    private DateFormat dateFormat = new SimpleDateFormat("HH.mm", Locale.getDefault());
+    private DateFormat isoDataFormat;
+    private DateFormat toDataFormat;
     @Builder
-    public class CurrentWeatherItem {
+    public static class CurrentWeatherItem {
         public String temp;
         public int weatherCode;
         public String time;
@@ -33,6 +33,8 @@ public class WeatherCityCurrentTimeAdapter extends RecyclerView.Adapter<WeatherC
 
     public WeatherCityCurrentTimeAdapter(List<CurrentWeatherItem> list) {
         this.list = list;
+        isoDataFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+        toDataFormat = new SimpleDateFormat("HH.mm");
     }
 
     @NonNull
@@ -48,13 +50,17 @@ public class WeatherCityCurrentTimeAdapter extends RecyclerView.Adapter<WeatherC
 
     @Override
     public void onBindViewHolder(@NonNull WeatherCityCurrentTimeViewHolder holder, int position) {
-        holder.binding.weatherCityItemCurrentListTime
-                .setText(list.get(position).temp + " °C");
+        holder.binding.weatherCityItemCurrentListTemp
+                .setText(list.get(position).temp + "°C");
         try {
-            holder.binding.weatherCityItemCurrentListTime.setText(dateFormat.format(dateFormat.parse(list.get(position).time)));
+            Date date = isoDataFormat.parse(list.get(position).time);
+            String time = toDataFormat.format(date);
+            holder.binding.weatherCityItemCurrentListTime.setText(time);
         } catch (ParseException e) {
+            Log.i("FORMATTER",e.getLocalizedMessage());
         }
-        Picasso.get().load(urlFromCode(list.get(position).weatherCode))
+        String imgUrl = urlFromCode(list.get(position).weatherCode);
+        Picasso.get().load(imgUrl)
                 .placeholder(R.drawable.weather_unknown)
                 .error(R.drawable.weather_unknown)
                 .into(holder.binding.weatherCityItemCurrentListIcon);

@@ -45,10 +45,12 @@ public class AddCityAdapter extends RecyclerView.Adapter<AddCityAdapter.AddCityV
         String url = "https://flagcdn.com/w160/"+result.countryCode.toLowerCase()+".png";
         Picasso.get().load(url).placeholder(R.drawable.placeholder_flag)
                 .into(b.addCityItemImage);
+        b.addCityItemCountry.setText(result.country);
+        b.addCityItemLat.setText(String.valueOf(result.lat));
+        b.addCityItemLon.setText(String.valueOf(result.lon));
+        b.addCityItemTimezone.setText(result.timezone);
 
         b.addCityItemName.setText(result.name);
-//        if (result.inDB) Picasso.get().load(R.drawable.add_saved).into(b.addCityItemActionAdd);
-//        else Picasso.get().load(R.drawable.add_plus).into(b.addCityItemActionAdd);
         if (result.inDB)b.addCityItemActionAdd.setImageDrawable(b.getRoot().getContext().getResources().getDrawable(R.drawable.add_saved));
         else b.addCityItemActionAdd.setImageDrawable(b.getRoot().getContext().getResources().getDrawable(R.drawable.add_plus));
         b.getRoot().setOnClickListener(new View.OnClickListener() {

@@ -27,11 +27,12 @@
             android:inputType="text"
             android:singleLine="true"
             android:imeOptions="actionDone"
-            android:text="Moscow"
+            android:text=""
             />
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        tools:listitem="@layout/add_city_item"
         android:id="@+id/add_city_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
