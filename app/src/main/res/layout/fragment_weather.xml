@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".screens.weather.WeatherFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="weather" />
+        android:id="@+id/weather_city_list"
+        tools:listitem="@layout/weather_city_item"
+        />
 
-</FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
