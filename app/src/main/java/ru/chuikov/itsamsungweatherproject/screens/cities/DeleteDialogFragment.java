@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import ru.chuikov.itsamsungweatherproject.R;
+
 public class DeleteDialogFragment extends DialogFragment {
     private RemovableCity removableCity;
 
@@ -24,15 +26,15 @@ public class DeleteDialogFragment extends DialogFragment {
         final String name = getArguments().getString("city_name");
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         return builder
-                .setTitle("Dialog")
-                .setMessage("Remove "+name+"?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setTitle(R.string.dialog)
+                .setMessage(getResources().getString(R.string.remove)+" "+name+"?")
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         removableCity.remove(id);
                     }
                 })
-                .setNegativeButton("No",null)
+                .setNegativeButton(R.string.no,null)
                 .create();
     }
 }

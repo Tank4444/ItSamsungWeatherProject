@@ -10,11 +10,12 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="List of cities"
+        android:text="@string/list_of_cities"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:padding="10dp"
+        android:paddingTop="5dp"
+        android:paddingHorizontal="10dp"
         android:textFontWeight="800"
         android:textSize="25sp"
         />
@@ -29,6 +30,7 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:orientation="vertical"
         tools:listitem="@layout/cities_item"
+        android:paddingBottom="5dp"
         >
 
     </androidx.recyclerview.widget.RecyclerView>

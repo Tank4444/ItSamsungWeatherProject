@@ -1,10 +1,13 @@
 package ru.chuikov.itsamsungweatherproject.screens.cityWeather;
 
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static ru.chuikov.itsamsungweatherproject.screens.weather.WeatherCityCurrentTimeAdapter.urlFromCode;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,7 +35,11 @@ public class CityWeatherAdapter extends RecyclerView.Adapter<CityWeatherAdapter.
     @NonNull
     @Override
     public CityWeatherViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                MATCH_PARENT, WRAP_CONTENT);
+        params.setMargins(10,10,10,10);
         CityWeatherListItemBinding binding = CityWeatherListItemBinding.inflate(LayoutInflater.from(parent.getContext()));
+        binding.getRoot().setLayoutParams(params);
         return new CityWeatherViewHolder(binding);
     }
 

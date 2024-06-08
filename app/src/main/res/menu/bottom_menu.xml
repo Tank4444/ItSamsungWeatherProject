@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:title="Weather"
+    <item android:title="@string/weather"
         android:id="@+id/weatherFragment"
         android:icon="@drawable/menu_weather"
         />
-    <item android:title="Cities"
+    <item android:title="@string/cities"
         android:id="@+id/citiesFragment"
         android:icon="@drawable/menu_city"
         />

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Погода Чуйков</string>
+    <string name="hello_blank_fragment">Привет пустой фрагмент</string>
+    <string name="weather_icon_content_description">Иконка погоды</string>
+    <string name="name">Имя</string>
+    <string name="country">Страна</string>
+    <string name="timezone">Зона</string>
+    <string name="weather">Погода</string>
+    <string name="cities">Города</string>
+    <string name="add">Добавить</string>
+    <string name="min">Мин</string>
+    <string name="tmin">Тмин</string>
+    <string name="max">Макс</string>
+    <string name="tmax">Тмак</string>
+    <string name="rain">Доджь</string>
+    <string name="pp">Дождь</string>
+    <string name="date">Дата</string>
+    <string name="input_city_name_search">Введите название города</string>
+    <string name="list_of_cities">Список городов</string>
+    <string name="city">Город</string>
+    <string name="temp">Температура</string>
+    <string name="time">Время</string>
+    <string name="dialog">Диалог</string>
+    <string name="remove">Удалить</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+</resources>

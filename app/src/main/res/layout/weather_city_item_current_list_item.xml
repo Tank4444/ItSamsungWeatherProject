@@ -9,7 +9,6 @@
         android:id="@+id/weather_city_item_current_list_temp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Temp"
         android:textFontWeight="500" />
 
     <ImageView
@@ -18,14 +17,12 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:adjustViewBounds="true"
-        android:scaleType="fitXY"
-        android:src="@drawable/add_plus" />
+        android:scaleType="fitXY" />
 
     <TextView
         android:id="@+id/weather_city_item_current_list_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Time"
         android:textFontWeight="500" />
 
 </LinearLayout>

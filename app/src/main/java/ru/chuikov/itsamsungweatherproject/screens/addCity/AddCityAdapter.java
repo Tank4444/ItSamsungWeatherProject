@@ -14,6 +14,7 @@ import java.util.List;
 import ru.chuikov.itsamsungweatherproject.R;
 import ru.chuikov.itsamsungweatherproject.api.responce.CityListResponse;
 import ru.chuikov.itsamsungweatherproject.databinding.AddCityItemBinding;
+import ru.chuikov.itsamsungweatherproject.screens.cities.util.RoundedCornersTransformation;
 import ru.chuikov.itsamsungweatherproject.service.dto.CityItemSearch;
 
 public class AddCityAdapter extends RecyclerView.Adapter<AddCityAdapter.AddCityViewHolder> {
@@ -44,10 +45,9 @@ public class AddCityAdapter extends RecyclerView.Adapter<AddCityAdapter.AddCityV
         CityItemSearch result = list.get(position);
         String url = "https://flagcdn.com/w160/"+result.countryCode.toLowerCase()+".png";
         Picasso.get().load(url).placeholder(R.drawable.placeholder_flag)
+                .transform(new RoundedCornersTransformation(40,0, RoundedCornersTransformation.CornerType.LEFT))
                 .into(b.addCityItemImage);
         b.addCityItemCountry.setText(result.country);
-        b.addCityItemLat.setText(String.valueOf(result.lat));
-        b.addCityItemLon.setText(String.valueOf(result.lon));
         b.addCityItemTimezone.setText(result.timezone);
 
         b.addCityItemName.setText(result.name);
