@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="100dp"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:gravity="center_horizontal"
-    >
+    android:orientation="vertical">
+
     <TextView
         android:id="@+id/weather_city_item_current_list_temp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Temp"
-        />
+        android:textFontWeight="500" />
+
     <ImageView
         android:id="@+id/weather_city_item_current_list_icon"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/add_plus"
-        />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/add_plus" />
+
     <TextView
         android:id="@+id/weather_city_item_current_list_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Time"
-        />
+        android:textFontWeight="500" />
 
 </LinearLayout>

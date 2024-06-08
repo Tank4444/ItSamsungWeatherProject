@@ -15,6 +15,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import ru.chuikov.itsamsungweatherproject.R;
+import ru.chuikov.itsamsungweatherproject.screens.cities.util.RoundedCornersTransformation;
 import ru.chuikov.itsamsungweatherproject.service.dto.CityItemSearch;
 
 
@@ -46,6 +47,7 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.CityViewHo
             CityItemSearch city = list.get(position);
             Picasso.get().load("https://flagcdn.com/w160/"+city
                             .countryCode.toLowerCase()+".png")
+                    .transform(new RoundedCornersTransformation(30,0, RoundedCornersTransformation.CornerType.LEFT))
                     .into(holder.countryImage);
             holder.nameText.setText(city.name);
             holder.countryText.setText(city.country);

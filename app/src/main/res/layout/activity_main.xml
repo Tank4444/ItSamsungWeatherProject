@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:orientation="vertical"
+    android:background="@drawable/background_gradient"
     >
 
     <fragment
@@ -23,7 +24,6 @@
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:labelVisibilityMode="labeled"
-
-        app:menu="@menu/bottom_menu" />
+        app:menu="@menu/bottom_menu"
+        />
 </LinearLayout>

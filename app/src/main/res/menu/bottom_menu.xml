@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:title="Погода"
+    <item android:title="Weather"
         android:id="@+id/weatherFragment"
+        android:icon="@drawable/menu_weather"
         />
-    <item android:title="Города"
+    <item android:title="Cities"
         android:id="@+id/citiesFragment"
+        android:icon="@drawable/menu_city"
         />
 </menu>

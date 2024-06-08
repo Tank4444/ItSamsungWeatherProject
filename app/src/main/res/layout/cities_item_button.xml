@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Button xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.AppCompatButton
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/item_city_button"
     android:text="Add"
+    android:textColor="@color/white"
+    android:textFontWeight="600"
+    android:textSize="20sp"
+    android:layout_marginHorizontal="10dp"
+    android:background="@drawable/city_weather_background"
+    android:elevation="5dp"
     >
-</Button>
+</androidx.appcompat.widget.AppCompatButton>
