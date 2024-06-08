@@ -20,8 +20,6 @@ import java.util.List;
 import java.util.Locale;
 
 import ru.chuikov.itsamsungweatherproject.App;
-import ru.chuikov.itsamsungweatherproject.R;
-import ru.chuikov.itsamsungweatherproject.api.responce.CityListResponse;
 import ru.chuikov.itsamsungweatherproject.data.enities.City;
 import ru.chuikov.itsamsungweatherproject.databinding.FragmentAddCityBinding;
 import ru.chuikov.itsamsungweatherproject.service.WeatherService;

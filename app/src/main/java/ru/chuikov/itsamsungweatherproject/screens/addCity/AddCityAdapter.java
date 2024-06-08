@@ -12,7 +12,6 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import ru.chuikov.itsamsungweatherproject.R;
-import ru.chuikov.itsamsungweatherproject.api.responce.CityListResponse;
 import ru.chuikov.itsamsungweatherproject.databinding.AddCityItemBinding;
 import ru.chuikov.itsamsungweatherproject.screens.cities.util.RoundedCornersTransformation;
 import ru.chuikov.itsamsungweatherproject.service.dto.CityItemSearch;

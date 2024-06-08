@@ -16,10 +16,10 @@ import java.util.List;
 
 import okhttp3.Response;
 import ru.chuikov.itsamsungweatherproject.api.ApiClient;
-import ru.chuikov.itsamsungweatherproject.api.responce.CityListResponse;
-import ru.chuikov.itsamsungweatherproject.api.responce.Daily;
-import ru.chuikov.itsamsungweatherproject.api.responce.Hourly;
-import ru.chuikov.itsamsungweatherproject.api.responce.WeatherCityResponse;
+import ru.chuikov.itsamsungweatherproject.api.response.CityListResponse;
+import ru.chuikov.itsamsungweatherproject.api.response.Daily;
+import ru.chuikov.itsamsungweatherproject.api.response.Hourly;
+import ru.chuikov.itsamsungweatherproject.api.response.WeatherCityResponse;
 import ru.chuikov.itsamsungweatherproject.data.AppDatabase;
 import ru.chuikov.itsamsungweatherproject.data.enities.City;
 import ru.chuikov.itsamsungweatherproject.screens.cityWeather.CityWeatherFragment;

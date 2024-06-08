@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Погода Чуйков</string>
+    <string name="app_name">Погода</string>
     <string name="hello_blank_fragment">Привет пустой фрагмент</string>
     <string name="weather_icon_content_description">Иконка погоды</string>
     <string name="name">Имя</string>
@@ -21,7 +21,7 @@
     <string name="city">Город</string>
     <string name="temp">Температура</string>
     <string name="time">Время</string>
-    <string name="dialog">Диалог</string>
+    <string name="dialog">Вопрос</string>
     <string name="remove">Удалить</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
